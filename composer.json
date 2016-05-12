@@ -1,0 +1,27 @@
+{
+  "name": "offline/update-manager",
+  "description": "Auto-update projects from a remote location",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tobias Kündig",
+      "email": "tobias.kuendig@offlinegmbh.ch"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "OFFLINE\\UpdateManager\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "require": {
+    "guzzlehttp/guzzle": "~6.0",
+    "phpunit/phpunit": "^5.3",
+    "symfony/yaml": "^3.0",
+    "composer/semver": "^1.4"
+  },
+  "require-dev": {
+  }
+}
