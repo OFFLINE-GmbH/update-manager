@@ -1,0 +1,29 @@
+project: 'Project Title'
+filename: 'filename.%VERSION%.zip'
+releases:
+    4.1.1:
+        released: 2016-08-20
+        stability: stable
+        changelog:
+            - Latest
+            - Änderung 2
+            - Änderung 3
+            - Änderung 4
+
+    4.1.0:
+        released: 2016-08-20
+        stability: stable
+        changelog:
+            - Änderung 1
+            - Änderung 2
+            - Änderung 3
+            - Änderung 4
+
+    4.1.2:
+        released: 2016-08-22
+        stability: beta
+        changelog:
+            - Latest Beta
+            - Änderung 2
+            - Änderung 3
+            - Änderung 4
