@@ -6,9 +6,8 @@ php:
 install:
   - composer install --dev
 
-after_script:
-  - vendor/bin/test-reporter
+script:
+  - phpunit --coverage-clover cover.xml
 
-addons:
-  code_climate:
-    repo_token: 1888c139c4141faf514667ec9e2da4e496f01ef23d5c47fbb3904ac65189681b
+after_script:
+  - CODECLIMATE_REPO_TOKEN=1888c139c4141faf514667ec9e2da4e496f01ef23d5c47fbb3904ac65189681b vendor/bin/test-reporter --coverage-report=cover.xml
