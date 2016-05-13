@@ -1,5 +1,6 @@
 project: 'Project Title'
-filename: 'filename.%VERSION%.zip'
+filename: 'update-%VERSION%.zip'
+location: './tests/stubs'
 releases:
     4.1.1:
         released: 2016-08-20

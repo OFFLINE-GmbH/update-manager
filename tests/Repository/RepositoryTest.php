@@ -44,4 +44,35 @@ class RepositoryTest extends BaseTest
 
         $this->assertEquals(['stable'], $this->repo->validStabilities());
     }
+
+    public function testNextVersion()
+    {
+        $this->repo->setStability('beta');
+
+        $next = $this->repo->nextVersion('4.1.0');
+        $this->assertEquals('4.1.1', $next);
+
+        $next = $this->repo->nextVersion('4.1.1');
+        $this->assertEquals('4.1.2', $next);
+
+        $next = $this->repo->nextVersion('4.1.2');
+        $this->assertFalse($next);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testRelease()
+    {
+        $release = $this->repo->release('4.1.1');
+        $this->assertEquals(1471651200, $release['released']);
+
+        $this->repo->release('no-exist');
+    }
+
+    public function testFilename()
+    {
+        $filename = $this->repo->filename('4.1.1');
+        $this->assertEquals('update-4.1.1.zip', $filename);
+    }
 }

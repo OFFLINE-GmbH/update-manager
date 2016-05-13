@@ -3,6 +3,7 @@
 namespace OFFLINE\UpdateManager\Repository;
 
 
+use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
 
 class Repository
@@ -66,9 +67,54 @@ class Repository
 
     public function latestVersion() : string
     {
-        $releases = array_keys($this->releases());
-        $releases = Semver::rsort($releases);
+        $releases = $this->sortedReleases();
 
         return reset($releases);
+    }
+
+    public function nextVersion(string $from)
+    {
+        $releases = $this->sortedReleases('ASC');
+
+        foreach ($releases as $release) {
+            if (Comparator::greaterThan($release, $from)) {
+                return $release;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    protected function sortedReleases($sort = 'DESC')
+    {
+        $sort = $sort === 'DESC' ? 'rsort' : 'sort';
+
+        $releases = array_keys($this->releases());
+        $releases = Semver::$sort($releases);
+
+        return $releases;
+    }
+
+    public function release(string $targetVersion) : array
+    {
+        $releases = $this->releases();
+        if ( ! array_key_exists($targetVersion, $releases)) {
+            throw new \InvalidArgumentException("$targetVersion does not exist in repository.");
+        }
+
+        return $releases[$targetVersion];
+    }
+
+    public function location()
+    {
+        return $this->info->information['location'];
+    }
+
+    public function filename(string $targetVersion)
+    {
+        return str_replace('%VERSION%', $targetVersion, $this->info->information['filename']);
     }
 }
