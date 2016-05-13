@@ -6,6 +6,7 @@ namespace OFFLINE\UpdateManager;
 use Composer\Semver\Comparator;
 use OFFLINE\UpdateManager\Repository\Info;
 use OFFLINE\UpdateManager\Repository\Repository;
+use OFFLINE\UpdateManager\Strategy\UpdateStrategy;
 use OFFLINE\UpdateManager\Updater\Result;
 use OFFLINE\UpdateManager\Updater\Updater;
 use Throwable;
@@ -42,7 +43,7 @@ class UpdateManager
         return Comparator::greaterThan($this->repo->latestVersion(), $this->currentVersion);
     }
 
-    public function update() : Result
+    public function update(UpdateStrategy $strategy) : Result
     {
         if ( ! $this->hasUpdate()) {
             return new Result(true, Result::NO_UPDATE_AVAILABLE);
@@ -52,9 +53,9 @@ class UpdateManager
 
         $updater = new Updater($this->repo, $nextVersion, $this->targetDirectory);
         try {
-            $updater->run();
+            $updater->run($strategy);
         } catch (Throwable $e) {
-            return new Result(false, Result::UPDATE_ERROR, $e->getMessage());
+            return new Result(false, Result::UPDATE_ERROR, $e);
         }
 
         return new Result(true, Result::UPDATE_SUCCESSFUL);

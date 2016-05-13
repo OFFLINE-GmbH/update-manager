@@ -1,5 +1,6 @@
 <?php
 
+use OFFLINE\UpdateManager\Strategy\ZipStrategy;
 use OFFLINE\UpdateManager\UpdateManager;
 use OFFLINE\UpdateManager\Updater\Result;
 
@@ -42,7 +43,7 @@ class UpdateManagerTest extends BaseTest
     public function testNoUpdateAvailable()
     {
         $manager = new UpdateManager($this->repo, '4.1.1', '');
-        $this->assertEquals(Result::NO_UPDATE_AVAILABLE, $manager->update());
+        $this->assertEquals(Result::NO_UPDATE_AVAILABLE, $manager->update(new ZipStrategy()));
     }
 
     public function testUpdate()
@@ -54,7 +55,7 @@ class UpdateManagerTest extends BaseTest
 
         $manager = new UpdateManager($this->repo, '4.1.1', $dir);
         $manager->repo->setStability('beta');
-        $result = $manager->update();
+        $result = $manager->update(new ZipStrategy());
 
         $this->assertEquals(Result::UPDATE_SUCCESSFUL, $result);
         $this->assertEquals("New\n", file_get_contents($file));
