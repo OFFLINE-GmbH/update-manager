@@ -23,5 +23,6 @@
     "composer/semver": "^1.4"
   },
   "require-dev": {
+    "codeclimate/php-test-reporter": "^0.3.2"
   }
 }
